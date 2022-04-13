@@ -10,8 +10,6 @@ Table item {
   Buy_Price string
   First_Bid string [not null]
   Number_of_Bids number [not null]
-  Location string [not null]
-  Country string [not null]
   Started string [not null]
   Ends string [not null]
   Seller string [not null]

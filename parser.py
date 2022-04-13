@@ -82,6 +82,14 @@ def parseJson(json_file):
             given `json_file' and generate the necessary .dat files to generate
             the SQL tables based on your relation design
             """
+            standard_out = sys.stdout
+            f = open('ebay_data/item.dat', 'a')
+            f.write(item["ItemID"] + "\n")
+            f.close()
+
+            f = open('ebay_data/item_category.dat', 'a')
+            # f.write(item["Category"] + "\n")
+            f.close()
             pass
 
 """

@@ -3,14 +3,8 @@
 //// -- Tables and References
 
 // Creating tables
-Table items {
-  item number
-}
-
-ref: items.item - item.id
-
 Table item {
-  id number [not null]
+  id number [pk, not null]
   Name string [not null]
   Currently string [not null]
   Buy_Price string
@@ -24,6 +18,8 @@ Table item {
   Description string [not null]
 }
 
+Ref: item.Seller - user.UserID
+
 Ref: item.id < item_category.item_id
 Ref: categories.id < item_category.category_id
 
@@ -33,8 +29,8 @@ Table item_category {
 }
 
 Table categories {
-  id int [pk]
-  name varchar
+  id number [pk]
+  name string
 }
 
 Ref: item.id < item_bid.item_id
@@ -46,8 +42,17 @@ Table item_bid {
 }
 
 Table bid {
-  id int [pk]
-  Bidder int [not null]
+  id number [pk]
+  Bidder string [not null]
   Time string [not null]
   Ammount string [not null]
 }
+
+Table user {
+  UserID string [pk, not null]
+  Location string
+  Country string
+  Rating number [not null]
+}
+
+Ref: bid.Bidder - user.UserID

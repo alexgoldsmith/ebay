@@ -1,0 +1,53 @@
+// This code can be used at dbdiagram.io
+//// -- LEVEL 1
+//// -- Tables and References
+
+// Creating tables
+Table items {
+  item number
+}
+
+ref: items.item - item.id
+
+Table item {
+  id number [not null]
+  Name string [not null]
+  Currently string [not null]
+  Buy_Price string
+  First_Bid string [not null]
+  Number_of_Bids number [not null]
+  Location string [not null]
+  Country string [not null]
+  Started string [not null]
+  Ends string [not null]
+  Seller string [not null]
+  Description string [not null]
+}
+
+Ref: item.id < item_category.item_id
+Ref: categories.id < item_category.category_id
+
+Table item_category {
+  item_id number 
+  category_id number
+}
+
+Table categories {
+  id int [pk]
+  name varchar
+}
+
+Ref: item.id < item_bid.item_id
+Ref: bid.id < item_bid.bid_id
+
+Table item_bid {
+  item_id number
+  bid_id number
+}
+
+Table bid {
+  id int [pk]
+  Bidder int [not null]
+  Time string [not null]
+  Ammount string [not null]
+}

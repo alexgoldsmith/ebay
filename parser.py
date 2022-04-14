@@ -84,11 +84,13 @@ def parseJson(json_file):
             """
             standard_out = sys.stdout
             f = open('ebay_data/item.dat', 'a')
-            f.write(item["ItemID"] + "\n")
+            f.write(item["ItemID"] + "| \n")
             f.close()
 
             f = open('ebay_data/item_category.dat', 'a')
-            # f.write(item["Category"] + "\n")
+            for cat in item["Category"]:
+                f.write(item["ItemID"] + " | ")
+                f.write(cat + "\n")
             f.close()
             pass
 

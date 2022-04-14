@@ -68,6 +68,11 @@ def transformDollar(money):
         return money
     return sub(r'[^\d.]', '', money)
 
+def writeToFile(item, file, key):
+    if key in item:
+        file.write(item[key] + " | ")
+    return
+
 """
 Parses a single json file. Currently, there's a loop that iterates over each
 item in the data set. Your job is to extend this functionality to create all
@@ -76,6 +81,9 @@ of the necessary SQL tables for your database.
 def parseJson(json_file):
     with open(json_file, 'r') as f:
         items = loads(f.read())['Items'] # creates a Python dictionary of Items for the supplied json file
+        with open('ebay_data/item.dat', 'w') as item_file:
+            item_file.write("Item ID | Name | Currently | Buy_Price | First_Bid"
+            " | Number_ofBids | Description | \n")
         for item in items:
             """
             TODO: traverse the items dictionary to extract information from the
@@ -83,15 +91,20 @@ def parseJson(json_file):
             the SQL tables based on your relation design
             """
             standard_out = sys.stdout
-            f = open('ebay_data/item.dat', 'a')
-            f.write(item["ItemID"] + "| \n")
-            f.close()
+            with open('ebay_data/item.dat', 'a') as f:
+            # TODO: refactor later to loop over items.keys excluding category
+                writeToFile(item, f, "ItemID")
+                writeToFile(item, f, "Name")
+                writeToFile(item, f, "Currently")
+                writeToFile(item, f, "Buy_Price")
+                writeToFile(item, f, "First_Bid")
+                writeToFile(item, f, "Description")
+                f.write("\n")
 
-            f = open('ebay_data/item_category.dat', 'a')
-            for cat in item["Category"]:
-                f.write(item["ItemID"] + " | ")
-                f.write(cat + "\n")
-            f.close()
+            with open('ebay_data/item_category.dat', 'a') as f:
+                for cat in item["Category"]:
+                    f.write(item["ItemID"] + " | ")
+                    f.write(cat + "\n")
             pass
 
 """

@@ -19,16 +19,10 @@ Table item {
 Ref: item.Seller - user.UserID
 
 Ref: item.id < item_category.item_id
-Ref: categories.id < item_category.category_id
 
 Table item_category {
   item_id number 
-  category_id number
-}
-
-Table categories {
-  id number [pk]
-  name string
+  category string
 }
 
 Ref: item.id < item_bid.item_id

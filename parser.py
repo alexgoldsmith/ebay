@@ -89,15 +89,15 @@ of the necessary SQL tables for your database.
 def parseJson(json_file):
     with open(json_file, 'r') as f:
         items = loads(f.read())['Items'] # creates a Python dictionary of Items for the supplied json file
-        with open('ebay_data/item.dat', 'w') as item_file:
-            item_file.write("Item_ID | Name | Currently | Buy_Price | First_Bid"
-                            " | Number_of_Bids | Started | Ends | Seller | Description | \n")
-            with open('ebay_data/user.dat', 'w') as userFile:
-                userFile.write("User_ID | Location | Country | Rating \n")
-            with open("ebay_data/bid.dat", 'w') as bidFile:
-                bidFile.write("Item_ID | Bidder|  Time | Amount \n")
-            with open("ebay_data/bid.dat", 'w') as itemBidFile:
-                itemBidFile.write("Item_ID | Bidder_ID \n")
+        # with open('ebay_data/item.dat', 'w') as item_file:
+        #     item_file.write("Item_ID | Name | Currently | Buy_Price | First_Bid"
+        #                     " | Number_of_Bids | Started | Ends | Seller | Description | \n")
+        #     with open('ebay_data/user.dat', 'w') as userFile:
+        #         userFile.write("User_ID | Location | Country | Rating \n")
+        #     with open("ebay_data/bid.dat", 'w') as bidFile:
+        #         bidFile.write("Item_ID | Bidder|  Time | Amount \n")
+        #     with open("ebay_data/bid.dat", 'w') as itemBidFile:
+        #         itemBidFile.write("Item_ID | Bidder_ID \n")
         for item in items:
             """
             TODO: traverse the items dictionary to extract information from the

@@ -122,7 +122,7 @@ def parseJson(json_file):
                         # bidFile.write(str(bidders))
                         bidFile.write(bidders["Bid"]["Bidder"]["UserID"] + " | ")
                         bidFile.write(bidders["Bid"]["Time"] + " | ")
-                        bidFile.write(transformDollar(bidders["Bid"]["Amount"]))
+                        bidFile.write(transformDollar(bidders["Bid"]["Amount"]) + " | ")
                 bidFile.write("\n")
 
             with open('ebay_data/user.dat', 'a') as userFile:

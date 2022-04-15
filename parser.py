@@ -76,6 +76,11 @@ def writeToFileDollars(item, file, key):
         file.write(transformDollar(item[key]) + " | ")
     return
 
+def writeToFileDate(item, file, key):
+    if key in item:
+        file.write(transformDttm(item[key]) + " | ")
+    return
+
 """
 Parses a single json file. Currently, there's a loop that iterates over each
 item in the data set. Your job is to extend this functionality to create all
@@ -107,8 +112,8 @@ def parseJson(json_file):
                 writeToFileDollars(item, itemFile, "Buy_Price")
                 writeToFileDollars(item, itemFile, "First_Bid")
                 writeToFile(item, itemFile, "Number_of_Bids")
-                writeToFile(item, itemFile, "Started")
-                writeToFile(item, itemFile, "Ends")
+                writeToFileDate(item, itemFile, "Started")
+                writeToFileDate(item, itemFile, "Ends")
                 writeToFile(item["Seller"], itemFile, "UserID")
                 if item["Description"] is not None:
                     writeToFile(item, itemFile, "Description")
@@ -121,13 +126,8 @@ def parseJson(json_file):
                         # writeToFile(bidders, bidFile, "UserID")
                         # bidFile.write(str(bidders))
                         bidFile.write(bidders["Bid"]["Bidder"]["UserID"] + " | ")
-                        bidFile.write(bidders["Bid"]["Time"] + " | ")
-<<<<<<< HEAD
-                        bidFile.write(transformDollar(bidders["Bid"]["Amount"]))
-                else: bidFile.write("NULL | NULL | NULL")
-=======
+                        bidFile.write(transformDttm(bidders["Bid"]["Time"]) + " | ")
                         bidFile.write(transformDollar(bidders["Bid"]["Amount"]) + " | ")
->>>>>>> b6bcc5419863ac27e034ba4696ac5a1b7791c48e
                 bidFile.write("\n")
 
             with open('ebay_data/user.dat', 'a') as userFile:

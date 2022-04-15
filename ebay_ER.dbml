@@ -25,20 +25,19 @@ Table item_category {
   category string
 }
 
-Ref: item.id < item_bid.item_id
-Ref: bid.id < item_bid.bid_id
-
-Table item_bid {
-  item_id number
-  bid_id number
-}
+Ref: item.id < bid.Item_ID
 
 Table bid {
-  id number [pk]
-  Bidder string [not null]
+  Item_ID number
+  Bidder_ID string [pk]
   Time string [not null]
-  Ammount string [not null]
+  Amount string [not null]
+
+  Indexes {
+    (Item_ID, Bidder_ID) [unique]
+  }
 }
+
 
 Table user {
   UserID string [pk, not null]
@@ -47,4 +46,4 @@ Table user {
   Rating number [not null]
 }
 
-Ref: bid.Bidder - user.UserID
+Ref: bid.Bidder_ID - user.UserID

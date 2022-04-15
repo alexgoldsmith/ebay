@@ -82,8 +82,14 @@ def parseJson(json_file):
     with open(json_file, 'r') as f:
         items = loads(f.read())['Items'] # creates a Python dictionary of Items for the supplied json file
         with open('ebay_data/item.dat', 'w') as item_file:
-            item_file.write("Item ID | Name | Currently | Buy_Price | First_Bid"
-            " | Number_ofBids | Description | \n")
+            item_file.write("Item_ID | Name | Currently | Buy_Price | First_Bid"
+            " | Number_of_Bids | Started | Ends | Seller | Description | \n")
+        with open('ebay_data/user.dat', 'w') as userFile:
+            userFile.write("User_ID | Location | Country | Rating \n")
+        with open("ebay_data/bid.dat", 'w') as bidFile:
+            bidFile.write("Item_ID | Bidder|  Time | Amount \n")
+        with open("ebay_data/bid.dat", 'w') as itemBidFile:
+            itemBidFile.write("Item_ID | Bidder_ID \n")
         for item in items:
             """
             TODO: traverse the items dictionary to extract information from the
@@ -91,15 +97,27 @@ def parseJson(json_file):
             the SQL tables based on your relation design
             """
             standard_out = sys.stdout
-            with open('ebay_data/item.dat', 'a') as f:
-            # TODO: refactor later to loop over items.keys excluding category
-                writeToFile(item, f, "ItemID")
-                writeToFile(item, f, "Name")
-                writeToFile(item, f, "Currently")
-                writeToFile(item, f, "Buy_Price")
-                writeToFile(item, f, "First_Bid")
-                writeToFile(item, f, "Description")
-                f.write("\n")
+            with open('ebay_data/item.dat', 'a') as itemFile:
+                writeToFile(item, itemFile, "ItemID")
+                writeToFile(item, itemFile, "Name")
+                writeToFile(item, itemFile, "Currently")
+                writeToFile(item, itemFile, "Buy_Price")
+                writeToFile(item, itemFile, "First_Bid")
+                writeToFile(item, itemFile, "Number_of_Bids")
+                writeToFile(item, itemFile, "Started")
+                writeToFile(item, itemFile, "Ends")
+                writeToFile(item["Seller"], itemFile, "UserID") 
+                # writeToFile(item, f, "Description")
+                itemFile.write("\n")
+            with open('ebay_data/bid.dat', 'a') as bidFile:
+                writeToFile(item["Bid"], )
+
+            with open('ebay_data/user.dat', 'a') as userFile:
+                writeToFile(item["Seller"], userFile, "UserID") 
+                writeToFile(item, userFile, "Location")
+                writeToFile(item, userFile, "Country")
+                writeToFile(item["Seller"], userFile, "Rating")
+                userFile.write("\n")
 
             with open('ebay_data/item_category.dat', 'a') as f:
                 for cat in item["Category"]:

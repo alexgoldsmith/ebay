@@ -1,0 +1,11 @@
+.separator |
+
+.import ebay_data/item.dat Items
+update Items set Buy_Price = null where Buy_Price = 'NULL';
+
+.import ebay_data/user.dat User
+update User set Location = null where Location = 'NULL';
+update User set Country = null where Location = 'NULL';
+.import ebay_data/bid.dat Bid
+
+.import ebay_data/item_category.dat item_category

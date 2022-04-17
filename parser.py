@@ -22,6 +22,7 @@ you; the rest is up to you!
 Happy parsing!
 """
 
+from asyncore import write
 import sys
 from json import loads
 from re import sub
@@ -66,19 +67,31 @@ def transformDollar(money):
         return money
     return sub(r'[^\d.]', '', money)
 
-def writeToFile(item, file, key):
+def writeToFile(item, file, key, lastvalue=False):
     if key in item:
-        file.write(item[key] + " | ")
+        if lastvalue == True:
+            file.write(item[key])
+        else:
+            file.write(item[key] + " | ")
+    else:
+        file.write("NULL")
     return
 
-def writeToFileDollars(item, file, key):
+def writeToFileDollars(item, file, key, lastvalue=False):
     if key in item:
-        file.write(transformDollar(item[key]) + " | ")
+        if lastvalue == True:
+            file.write(transformDollar(item[key]))
+        else:
+            file.write(transformDollar(item[key]) + " | ")
+    else:
+        file.write("NULL")
     return
 
 def writeToFileDate(item, file, key):
     if key in item:
         file.write(transformDttm(item[key]) + " | ")
+    else:
+        file.write("NULL")
     return
 
 """
@@ -116,25 +129,26 @@ def parseJson(json_file):
                 writeToFileDate(item, itemFile, "Ends")
                 writeToFile(item["Seller"], itemFile, "UserID")
                 if item["Description"] is not None:
-                    writeToFile(item, itemFile, "Description")
+                    writeToFile(item, itemFile, "Description", True)
                 itemFile.write("\n")
 
             with open('ebay_data/bid.dat', 'a') as bidFile:
-                writeToFile(item, bidFile, "ItemID")
                 if item["Bids"] is not None:
                     for bidders in item["Bids"]:
-                        # writeToFile(bidders, bidFile, "UserID")
-                        # bidFile.write(str(bidders))
-                        bidFile.write(bidders["Bid"]["Bidder"]["UserID"] + " | ")
-                        bidFile.write(transformDttm(bidders["Bid"]["Time"]) + " | ")
-                        bidFile.write(transformDollar(bidders["Bid"]["Amount"]) + " | ")
-                bidFile.write("\n")
+                        writeToFile(item, bidFile, "ItemID")
+                        writeToFile(bidders["Bid"]["Bidder"], bidFile, "UserID")
+                        # bidFile.write(bidders["Bid"]["Bidder"]["UserID"] + " | ")
+                        writeToFileDollars(bidders["Bid"], bidFile, "Time")
+                        # bidFile.write(transformDttm(bidders["Bid"]["Time"]) + " | ")
+                        writeToFileDollars(bidders["Bid"], bidFile, "Amount")
+                        # bidFile.write(transformDollar(bidders["Bid"]["Amount"]))
+                    bidFile.write("\n")
 
             with open('ebay_data/user.dat', 'a') as userFile:
                 writeToFile(item["Seller"], userFile, "UserID")
                 writeToFile(item, userFile, "Location")
                 writeToFile(item, userFile, "Country")
-                writeToFile(item["Seller"], userFile, "Rating")
+                writeToFile(item["Seller"], userFile, "Rating", True)
                 userFile.write("\n")
 
             with open('ebay_data/item_category.dat', 'a') as f:
